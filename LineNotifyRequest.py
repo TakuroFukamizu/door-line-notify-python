@@ -5,22 +5,22 @@ import urllib2
 import urllib
 
 class LineNotifyRequest:
-    url = 'https://notify-api.line.me/api/notify'
-    apiToken = None;
-    message = None;
+    __url = 'https://notify-api.line.me/api/notify'
+    __apiToken = None;
+    __message = None;
 
     def setToken(self, token):
-        self.apiToken = token
+        self.__apiToken = token
 
     def setMessage(self, message):
-        self.message = message
+        self.__message = message
 
     def send(self):
-        values = { 'message' : self.message }
-        headers = { 'Authorization' : 'Bearer {t}'.format(t=self.apiToken) }
+        values = { 'message' : self.__message }
+        headers = { 'Authorization' : 'Bearer {t}'.format(t=self.__apiToken) }
 
         data = urllib.urlencode(values)
-        req = urllib2.Request(url, data, headers)
+        req = urllib2.Request(self.__url, data, headers)
         response = urllib2.urlopen(req)
         the_page = response.read()
         return the_page

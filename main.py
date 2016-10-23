@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import LineNotifyRequest
+from LineNotifyRequest import *
 
-api_token = 'YOUR TOKEN';
+api_token = 'YOUR_TOKEN';
 
-req = LineNotifyRequest()
-req.setToken(api_token)
-req.setMessage('hogehoge')
-req.send()
+if __name__ == "__main__":
+    req = LineNotifyRequest()
+    req.setToken(api_token)
+    req.setMessage('hogehoge')
+    req.send()
 
 
 
