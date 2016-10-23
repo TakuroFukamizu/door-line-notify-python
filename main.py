@@ -37,6 +37,8 @@ if __name__ == "__main__":
     GPIO.setup(PIN_SWITCH , GPIO.IN)
     GPIO.setup(PIN_BELL   , GPIO.OUT)
 
+    GPIO.output(PIN_BELL, False)
+
     # read private config
     properties = load_properties()
     api_token = properties['line_api_token']
@@ -54,7 +56,7 @@ if __name__ == "__main__":
 
             # ring door bell
             GPIO.output(PIN_BELL, True)
-            ime.sleep(1.5) 
+            time.sleep(1.5) 
             GPIO.output(PIN_BELL, False)
 
             # send Line notify
