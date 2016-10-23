@@ -3,6 +3,7 @@
 
 import json
 import time
+from datetime import datetime
 from LineNotifyRequest import *
 
 import RPi.GPIO as GPIO
@@ -23,6 +24,12 @@ def load_properties():
     pf.close()
     return properties
 
+def create_knock_message():
+    msg_template = 'someone knock a door at {time}'
+    attime = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+    return msg_template.format(time=attime)
+
+
 if __name__ == "__main__":
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(PIN_SWITCH , GPIO.IN)
@@ -36,14 +43,17 @@ if __name__ == "__main__":
         value = GPIO.input(PIN_SWITCH)
         print value
 
-        if value == False :
+        if value == 1 :
+            # continue poling
             time.sleep(1.0)
         else:
+            # ring door bell
             GPIO.output(PIN_BELL,True)
+
             # send Line notify
             req = LineNotifyRequest()
             req.setToken(api_token)
-            req.setMessage('hogehoge')
+            req.setMessage(create_knock_message())
             print req.send()
 
             time.sleep(5.0)
