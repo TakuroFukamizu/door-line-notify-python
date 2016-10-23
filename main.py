@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
+import sys
 import json
 import time
 from datetime import datetime
@@ -19,7 +21,8 @@ PIN_SWITCH = 4
 PIN_BELL = 17
 
 def load_properties():
-    pf = open('properties.json', 'r')
+    basedir = os.path.dirname(os.path.abspath(__file__))
+    pf = open(os.path.join(basedir, 'properties.json'), 'r')
     properties = json.load(pf)
     pf.close()
     return properties
@@ -51,19 +54,23 @@ if __name__ == "__main__":
             time.sleep(0.2)
             if value == 0 : knocked = True
 
-        if knocked == 1 :
-            print "knock. knock."
+        if knocked == True :
+            print 'knock. knock.'
+
+            try:
+                # send Line notify
+                req = LineNotifyRequest()
+                req.setToken(api_token)
+                req.setMessage(create_knock_message())
+                print req.send()
+            except:
+                print 'Unexpected error on Line Notify:', sys.exc_info()[0]
 
             # ring door bell
             GPIO.output(PIN_BELL, True)
             time.sleep(1.5) 
             GPIO.output(PIN_BELL, False)
 
-            # send Line notify
-            req = LineNotifyRequest()
-            req.setToken(api_token)
-            req.setMessage(create_knock_message())
-            print req.send()
 
             time.sleep(3.5) # long wait
 
