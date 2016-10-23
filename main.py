@@ -36,7 +36,7 @@ if __name__ == "__main__":
         value = GPIO.input(PIN_SWITCH)
         print value
 
-        if value == True :
+        if value == False :
             time.sleep(1.0)
         else:
             GPIO.output(PIN_BELL,True)
