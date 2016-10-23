@@ -31,6 +31,8 @@ def create_knock_message():
 
 
 if __name__ == "__main__":
+    GPIO.setwarnings(False)
+
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(PIN_SWITCH , GPIO.IN)
     GPIO.setup(PIN_BELL   , GPIO.OUT)
@@ -52,6 +54,8 @@ if __name__ == "__main__":
 
             # ring door bell
             GPIO.output(PIN_BELL, True)
+            ime.sleep(1.5) 
+            GPIO.output(PIN_BELL, False)
 
             # send Line notify
             req = LineNotifyRequest()
@@ -59,7 +63,7 @@ if __name__ == "__main__":
             req.setMessage(create_knock_message())
             print req.send()
 
-            time.sleep(5.0) # long wait
+            time.sleep(3.5) # long wait
 
     GPIO.cleanup()
 
