@@ -24,7 +24,7 @@ def load_properties():
     return properties
 
 if __name__ == "__main__":
-    GPIO.setmode(GPIO.BOARD)
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(PIN_SWITCH , GPIO.IN)
     GPIO.setup(PIN_BELL   , GPIO.OUT)
 
