@@ -14,7 +14,7 @@ from LineNotifyRequest import *
 def load_properties():
     pf = open('properties.json', 'r')
     properties = json.load(pf)
-    f.close()
+    pf.close()
     return properties
 
 if __name__ == "__main__":
