@@ -40,15 +40,18 @@ if __name__ == "__main__":
     api_token = properties['line_api_token']
 
     while True:
-        value = GPIO.input(PIN_SWITCH)
-        print value
+        # fetch swtich status -- 5 times/1 sec
+        knocked = False
+        for var in range(0, 5):
+            value = GPIO.input(PIN_SWITCH)
+            time.sleep(0.2)
+            if value == 0 : knocked = True
 
-        if value == 1 :
-            # continue poling
-            time.sleep(1.0)
-        else:
+        if knocked == 1 :
+            print "knock. knock."
+
             # ring door bell
-            GPIO.output(PIN_BELL,True)
+            GPIO.output(PIN_BELL, True)
 
             # send Line notify
             req = LineNotifyRequest()
@@ -56,7 +59,7 @@ if __name__ == "__main__":
             req.setMessage(create_knock_message())
             print req.send()
 
-            time.sleep(5.0)
+            time.sleep(5.0) # long wait
 
     GPIO.cleanup()
 
